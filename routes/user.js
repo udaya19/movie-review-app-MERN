@@ -24,4 +24,6 @@ router.post(
   validate,
   userController.resetPassword
 );
+router.post("/login", userController.signIn);
+router.post("/logout", userController.logout);
 module.exports = router;

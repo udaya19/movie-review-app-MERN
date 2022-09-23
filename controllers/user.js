@@ -3,6 +3,7 @@ const EmailVerificationToken = require("../models/emailVerificationToken");
 const PasswordResetToken = require("../models/passwordResetToken");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 const { isValidObjectId } = require("mongoose");
 exports.create = async (req, res) => {
   try {
@@ -217,6 +218,56 @@ exports.resetPassword = async (req, res) => {
   } catch (error) {
     return res.json(500, {
       error: error.message,
+    });
+  }
+};
+
+exports.signIn = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.json(400, {
+        error: "Email/password is invalid",
+      });
+    }
+    const matched = await user.comparePassword(password);
+    if (!matched) {
+      return res.json(400, {
+        error: "Email/password is invalid",
+      });
+    }
+    const opts = {
+      expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    };
+    const jwtToken = jwt.sign({ userId: user._id }, "jsonsecretkey");
+    return res.cookie("token", jwtToken, opts).json(200, {
+      message: user,
+      jwtToken,
+    });
+  } catch (error) {
+    return res.json(500, {
+      message: error.message,
+    });
+  }
+};
+
+exports.logout = async (req, res) => {
+  try {
+    return res
+      .status(200)
+      .cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+      })
+      .json({
+        message: "Log out successful",
+        success: true,
+      });
+  } catch (error) {
+    return res.json(500, {
+      message: error.message,
     });
   }
 };
