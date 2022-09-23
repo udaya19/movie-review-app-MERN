@@ -2,9 +2,10 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+require("dotenv").config();
 try {
   mongoose
-    .connect("mongodb://localhost/mern_moviereview")
+    .connect(process.env.MONGO_URL)
     .then(() => {
       console.log("Database Connected Successfully");
     })
