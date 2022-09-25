@@ -1,11 +1,14 @@
 import React from "react";
 import { BsFillSunFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <div className="bg-secondary">
       <div className="text-white">
         <div className="flex justify-between items-center">
-          <img src="./logo.png" className="h-10" alt="" />
+          <Link to="/">
+            <img src="./logo.png" className="h-10" alt="" />
+          </Link>
           <ul className="flex items-center space-x-4">
             <li>
               <button className="bg-dark-subtle p-1 rounded">
@@ -19,7 +22,9 @@ const Navbar = () => {
                 placeholder="Search..."
               />
             </li>
-            <li className="text-white">Login</li>
+            <Link to="/signin">
+              <li className="text-white">Login</li>
+            </Link>
           </ul>
         </div>
       </div>
