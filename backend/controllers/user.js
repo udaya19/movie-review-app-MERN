@@ -48,6 +48,11 @@ exports.create = async (req, res) => {
     return res.json(200, {
       message:
         "Please verify your email. OTP had been sent to your email account",
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+      },
     });
   } catch (error) {
     return res.json(500, {
