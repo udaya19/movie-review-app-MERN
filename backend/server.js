@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const { handleNotFound } = require("./utils/helper");
 require("dotenv").config();
 try {
   mongoose
@@ -20,6 +21,7 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/users", require("./routes/user"));
+app.use("/*", handleNotFound);
 app.listen(8080, () => {
   console.log("the port is listening on port 8080");
 });
