@@ -6,9 +6,12 @@ import CustomLink from "../CustomLink";
 
 const ForgetPassword = () => {
   return (
-    <div className="fixed inset-0 bg-primary text-white -z-10 flex justify-center items-center">
+    <div className="fixed inset-0 dark:bg-primary bg-white text-white -z-10 flex justify-center items-center">
       <div className="max-w-screen-xl max-auto ">
-        <form action="" className="bg-secondary rounded p-6 w-96 space-y-6">
+        <form
+          action=""
+          className="dark:bg-secondary bg-white drop-shadow-lg rounded p-6 w-96 space-y-6"
+        >
           <Title>Please Enter Your E-mail</Title>
           <FormInput
             label="Email"
