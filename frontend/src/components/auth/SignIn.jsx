@@ -9,11 +9,11 @@ const SignIn = () => {
   const theme = useTheme();
   console.log(theme);
   return (
-    <div className="fixed inset-0 dark:bg-primary text-white -z-10 flex justify-center items-center">
+    <div className="fixed inset-0 dark:bg-primary bg-white text-white -z-10 flex justify-center items-center">
       <div className="max-w-screen-xl max-auto ">
         <form
           action=""
-          className="dark:bg-secondary rounded p-6 w-72 space-y-6"
+          className="dark:bg-secondary rounded p-6 w-72 space-y-6 bg-white drop-shadow-lg"
         >
           <Title>Sign In</Title>
           <FormInput
