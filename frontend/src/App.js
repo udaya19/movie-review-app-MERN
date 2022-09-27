@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import EmailVerification from "./components/auth/EmailVerification";
 import ForgetPassword from "./components/auth/ForgetPassword";
 import ConfirmPassword from "./components/auth/ConfirmPassword";
+import NotFound from "./components/NotFound";
 function App() {
   return (
     <div className="App">
@@ -16,6 +17,7 @@ function App() {
         <Route path="/verification" element={<EmailVerification />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/confirm-password" element={<ConfirmPassword />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

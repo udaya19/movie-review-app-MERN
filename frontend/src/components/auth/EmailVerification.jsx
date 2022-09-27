@@ -4,11 +4,24 @@ import Submit from "../form/Submit";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
-const OTP_LENGTH = 6;
+import { useLocation, useNavigate } from "react-router-dom";
+import { verifyUserEmail } from "../../api/auth";
+const OTP_LENGTH = 5;
+const isValidOtp = (otp) => {
+  let valid = false;
+  for (let val of otp) {
+    valid = !isNaN(parseInt(val));
+    if (!valid) break;
+  }
+  return valid;
+};
 const EmailVerification = () => {
   const [otp, setOtp] = useState(new Array(OTP_LENGTH).fill(""));
   const [activeOtpIndex, setActiveOtpIndex] = useState(0);
   const inputRef = useRef();
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const user = state?.user;
   const focusNextInputField = (index) => {
     setActiveOtpIndex(index + 1);
   };
@@ -30,13 +43,33 @@ const EmailVerification = () => {
 
     setOtp([...newOtp]);
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!isValidOtp(otp)) {
+      console.log("Invalid otp");
+    }
+    const { error, message } = await verifyUserEmail({
+      OTP: otp.join(""),
+      userId: user.id,
+    });
+    if (error) {
+      console.log(console);
+    }
+    console.log(message);
+  };
   useEffect(() => {
     inputRef.current?.focus();
   }, [activeOtpIndex]);
+  useEffect(() => {
+    if (!user) {
+      navigate("/not-found");
+    }
+  }, [user]);
   return (
     <div className="fixed inset-0 dark:bg-primary bg-white text-white -z-10 flex justify-center items-center">
       <div className="max-w-screen-xl max-auto ">
         <form
+          onSubmit={handleSubmit}
           action=""
           className="dark:bg-secondary bg-white drop-shadow-lg rounded p-6 space-y-6"
         >
@@ -58,7 +91,7 @@ const EmailVerification = () => {
               />
             ))}
           </div>
-          <Submit value="Send Link" />
+          <Submit value="Verify Account" />
         </form>
       </div>
     </div>

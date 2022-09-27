@@ -4,6 +4,7 @@ import Title from "../form/Title";
 import Submit from "../form/Submit";
 import CustomLink from "../CustomLink";
 import { createUser } from "../../api/auth";
+import { useNavigate } from "react-router-dom";
 const validateUserInfo = ({ name, email, password }) => {
   const isValidEmail =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -25,6 +26,7 @@ const validateUserInfo = ({ name, email, password }) => {
   return { ok: true };
 };
 const SignUp = () => {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -47,6 +49,10 @@ const SignUp = () => {
       return console.log(error);
     }
     console.log(response.user);
+    navigate("/verification", {
+      state: { user: response.user },
+      replace: true,
+    });
   };
   return (
     <div className="fixed inset-0 dark:bg-primary bg-white text-white -z-10 flex justify-center items-center">
