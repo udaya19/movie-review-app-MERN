@@ -45,8 +45,16 @@ const AuthProvider = ({ children }) => {
   //   useEffect(() => {
   //     isAuth();
   //   }, []);
+  const handleLogout = () => {
+    localStorage.removeItem("auth-token");
+    setAuthInfo({
+      ...defaultAuthInfo,
+    });
+  };
   return (
-    <AuthContext.Provider value={{ authInfo, handleLogin, isAuth }}>
+    <AuthContext.Provider
+      value={{ authInfo, handleLogin, isAuth, handleLogout }}
+    >
       {children}
     </AuthContext.Provider>
   );
