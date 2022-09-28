@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormInput from "../form/FormInput";
 import Title from "../form/Title";
 import Submit from "../form/Submit";
@@ -6,6 +6,7 @@ import CustomLink from "../CustomLink";
 import { createUser } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
+import { useAuth } from "../../hooks/index";
 const validateUserInfo = ({ name, email, password }) => {
   const isValidEmail =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -29,6 +30,8 @@ const validateUserInfo = ({ name, email, password }) => {
 const SignUp = () => {
   const navigate = useNavigate();
   const { addToast } = useToasts();
+  const { authInfo } = useAuth();
+  const { isLoggedIn } = authInfo;
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -57,6 +60,11 @@ const SignUp = () => {
       replace: true,
     });
   };
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn]);
   return (
     <div className="fixed inset-0 dark:bg-primary bg-white text-white -z-10 flex justify-center items-center">
       <div className="max-w-screen-xl max-auto ">

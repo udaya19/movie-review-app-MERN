@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FormInput from "../form/FormInput";
 import Title from "../form/Title";
 import Submit from "../form/Submit";
 import CustomLink from "../CustomLink";
-
+import { useNavigate } from "react-router-dom";
 import { useAuth, useTheme } from "../../hooks/index";
 const SignIn = () => {
   const [userInfo, setUserInfo] = useState({
@@ -11,7 +11,7 @@ const SignIn = () => {
     password: "",
   });
   const { handleLogin, authInfo } = useAuth();
-  const { isPending } = authInfo;
+  const { isPending, isLoggedIn } = authInfo;
   console.log(authInfo);
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -22,7 +22,13 @@ const SignIn = () => {
     handleLogin(userInfo.email, userInfo.password);
   };
   const theme = useTheme();
+  const navigate = useNavigate();
   console.log(theme);
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn]);
   return (
     <div className="fixed inset-0 dark:bg-primary bg-white text-white -z-10 flex justify-center items-center">
       <div className="max-w-screen-xl max-auto ">
