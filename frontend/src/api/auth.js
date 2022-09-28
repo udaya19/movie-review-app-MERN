@@ -19,3 +19,13 @@ export const verifyUserEmail = async (userInfo) => {
     console.log(error);
   }
 };
+
+export const userSignIn = async (userInfo) => {
+  try {
+    const response = (await client.post("/users/login", userInfo)).data;
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};

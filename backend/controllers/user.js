@@ -258,8 +258,12 @@ exports.signIn = async (req, res) => {
     };
     const jwtToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
     return res.cookie("token", jwtToken, opts).json(200, {
-      message: user,
-      jwtToken,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        token: jwtToken,
+      },
     });
   } catch (error) {
     return res.json(500, {

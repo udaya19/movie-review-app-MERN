@@ -1,13 +1,14 @@
 import React from "react";
-
-const Submit = ({ value }) => {
+import { ImSpinner } from "react-icons/im";
+const Submit = ({ value, busy }) => {
   return (
     <div>
-      <input
+      <button
         type="submit"
-        className="w-full p-1 dark:bg-white dark:text-black text-white bg-black hover:opacity-80 cursor-pointer"
-        value={value}
-      />
+        className="w-full h-10 dark:bg-white dark:text-black text-white bg-black hover:opacity-80 cursor-pointer"
+      >
+        {busy ? <ImSpinner className="animate-spin" /> : value}
+      </button>
     </div>
   );
 };
