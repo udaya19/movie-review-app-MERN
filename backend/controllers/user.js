@@ -256,7 +256,7 @@ exports.signIn = async (req, res) => {
       expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
       httpOnly: true,
     };
-    const jwtToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+    const jwtToken = jwt.sign({ userId: user._id }, "jsonsecretkey");
     return res.cookie("token", jwtToken, opts).json(200, {
       user: {
         id: user._id,

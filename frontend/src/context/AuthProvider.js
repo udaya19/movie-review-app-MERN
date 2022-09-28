@@ -1,6 +1,6 @@
 import React from "react";
-import { createContext, useState } from "react";
-import { userSignIn } from "../api/auth";
+import { createContext, useState, useEffect } from "react";
+import { getIsAuth, userSignIn } from "../api/auth";
 
 export const AuthContext = createContext();
 const defaultAuthInfo = {
@@ -25,8 +25,28 @@ const AuthProvider = ({ children }) => {
     });
     localStorage.setItem("auth-token", user.token);
   };
+  const isAuth = async () => {
+    const token = localStorage.getItem("auth-token");
+    if (!token) {
+      return;
+    }
+    setAuthInfo({ ...authInfo, isPending: true });
+    const { error, user } = await getIsAuth(token);
+    if (error) {
+      return setAuthInfo({ ...authInfo, isPending: false, error });
+    }
+    setAuthInfo({
+      profile: { ...user },
+      isPending: false,
+      isLoggedIn: true,
+      error: "",
+    });
+  };
+  //   useEffect(() => {
+  //     isAuth();
+  //   }, []);
   return (
-    <AuthContext.Provider value={{ authInfo, handleLogin }}>
+    <AuthContext.Provider value={{ authInfo, handleLogin, isAuth }}>
       {children}
     </AuthContext.Provider>
   );
