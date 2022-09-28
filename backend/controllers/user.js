@@ -94,9 +94,19 @@ exports.verifyEmail = async (req, res) => {
   user.isVerified = true;
   await user.save();
   await EmailVerificationToken.findByIdAndDelete(token._id);
-  return res.json(200, {
+  const jwtToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+  const opts = {
+    expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    httpOnly: true,
+  };
+  return res.cookie("token", jwtToken, opts).json(200, {
     message: "Email is verified",
-    user: user,
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      userToken: jwtToken,
+    },
   });
 };
 
