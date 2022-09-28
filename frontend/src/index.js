@@ -4,12 +4,19 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import ThemeProvider from "./context/ThemeProvider";
+import { ToastProvider } from "react-toast-notifications";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider>
-        <App />
+        <ToastProvider
+          autoDismiss
+          autoDismissTimeout={5000}
+          placement="top-right"
+        >
+          <App />
+        </ToastProvider>
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>

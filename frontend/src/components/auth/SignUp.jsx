@@ -5,6 +5,7 @@ import Submit from "../form/Submit";
 import CustomLink from "../CustomLink";
 import { createUser } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 const validateUserInfo = ({ name, email, password }) => {
   const isValidEmail =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -27,6 +28,7 @@ const validateUserInfo = ({ name, email, password }) => {
 };
 const SignUp = () => {
   const navigate = useNavigate();
+  const { addToast } = useToasts();
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -46,8 +48,9 @@ const SignUp = () => {
     console.log(userInfo);
     const response = await createUser(userInfo);
     if (response.error) {
-      return console.log(error);
+      return addToast(response.message);
     }
+    addToast(response.message, { appearance: "success" });
     console.log(response.user);
     navigate("/verification", {
       state: { user: response.user },

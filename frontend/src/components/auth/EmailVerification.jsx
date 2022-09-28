@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { verifyUserEmail } from "../../api/auth";
+import { useToasts } from "react-toast-notifications";
 const OTP_LENGTH = 5;
 const isValidOtp = (otp) => {
   let valid = false;
@@ -21,6 +22,7 @@ const EmailVerification = () => {
   const inputRef = useRef();
   const { state } = useLocation();
   const navigate = useNavigate();
+  const { addToast } = useToasts();
   const user = state?.user;
   const focusNextInputField = (index) => {
     setActiveOtpIndex(index + 1);
@@ -54,8 +56,11 @@ const EmailVerification = () => {
     });
     if (error) {
       console.log(console);
+      return addToast(error, { appearance: "error" });
     }
+    console.log("User:", user);
     console.log(message);
+    addToast(message, { appearance: "success" });
   };
   useEffect(() => {
     inputRef.current?.focus();
@@ -64,6 +69,7 @@ const EmailVerification = () => {
     if (!user) {
       navigate("/not-found");
     }
+    console.log(user);
   }, [user]);
   return (
     <div className="fixed inset-0 dark:bg-primary bg-white text-white -z-10 flex justify-center items-center">
