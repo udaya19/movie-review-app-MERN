@@ -7,11 +7,13 @@ import EmailVerification from "./components/auth/EmailVerification";
 import ForgetPassword from "./components/auth/ForgetPassword";
 import ConfirmPassword from "./components/auth/ConfirmPassword";
 import NotFound from "./components/NotFound";
+import Home from "./components/Home";
 function App() {
   return (
     <div className="App">
       <Navbar />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/verification" element={<EmailVerification />} />
