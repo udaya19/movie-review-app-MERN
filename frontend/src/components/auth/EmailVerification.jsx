@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { verifyUserEmail } from "../../api/auth";
 import { useToasts } from "react-toast-notifications";
+import { useAuth } from "../../hooks";
 const OTP_LENGTH = 5;
 const isValidOtp = (otp) => {
   let valid = false;
@@ -23,6 +24,8 @@ const EmailVerification = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { addToast } = useToasts();
+  const { isAuth, authInfo } = useAuth();
+  const { isLoggedIn } = authInfo;
   const user = state?.user;
   const focusNextInputField = (index) => {
     setActiveOtpIndex(index + 1);
@@ -50,7 +53,11 @@ const EmailVerification = () => {
     if (!isValidOtp(otp)) {
       console.log("Invalid otp");
     }
-    const { error, message } = await verifyUserEmail({
+    const {
+      error,
+      message,
+      user: userResponse,
+    } = await verifyUserEmail({
       OTP: otp.join(""),
       userId: user.id,
     });
@@ -61,6 +68,8 @@ const EmailVerification = () => {
     console.log("User:", user);
     console.log(message);
     addToast(message, { appearance: "success" });
+    localStorage.setItem("auth-token", userResponse.token);
+    isAuth();
   };
   useEffect(() => {
     inputRef.current?.focus();
@@ -69,8 +78,11 @@ const EmailVerification = () => {
     if (!user) {
       navigate("/not-found");
     }
+    if (isLoggedIn) {
+      navigate("/");
+    }
     console.log(user);
-  }, [user]);
+  }, [user, isLoggedIn]);
   return (
     <div className="fixed inset-0 dark:bg-primary bg-white text-white -z-10 flex justify-center items-center">
       <div className="max-w-screen-xl max-auto ">
