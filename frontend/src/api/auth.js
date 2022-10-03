@@ -62,5 +62,23 @@ export const verifyPasswordResetToken = async (token, userId) => {
       token,
       userId,
     });
-  } catch (error) {}
+    return data;
+  } catch (error) {
+    const { response } = error;
+    if (response?.data) return response.data;
+    return { error: error.message || error };
+  }
+};
+
+export const resetPassword = async (passwordInfo) => {
+  try {
+    const { data } = await client.post("/users/reset-password", {
+      passwordInfo,
+    });
+    return data;
+  } catch (error) {
+    const { response } = error;
+    if (response?.data) return response.data;
+    return { error: error.message || error };
+  }
 };
