@@ -44,3 +44,14 @@ export const getIsAuth = async (token) => {
     console.log(error);
   }
 };
+
+export const forgetPassword = async (email) => {
+  try {
+    const { data } = await client.post("/users/api/forgot-password", { email });
+    return data;
+  } catch (error) {
+    const { response } = error;
+    if (response?.data) return response.data;
+    return { error: error.message || error };
+  }
+};

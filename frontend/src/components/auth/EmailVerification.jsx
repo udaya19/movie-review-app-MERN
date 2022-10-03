@@ -70,6 +70,9 @@ const EmailVerification = () => {
     addToast(message, { appearance: "success" });
     localStorage.setItem("auth-token", userResponse.token);
     isAuth();
+    if (isLoggedIn) {
+      navigate("/");
+    }
   };
   useEffect(() => {
     inputRef.current?.focus();
@@ -78,11 +81,9 @@ const EmailVerification = () => {
     if (!user) {
       navigate("/not-found");
     }
-    if (isLoggedIn) {
-      navigate("/");
-    }
+
     console.log(user);
-  }, [user, isLoggedIn]);
+  }, [user]);
   return (
     <div className="fixed inset-0 dark:bg-primary bg-white text-white -z-10 flex justify-center items-center">
       <div className="max-w-screen-xl max-auto ">
