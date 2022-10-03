@@ -190,7 +190,7 @@ exports.forgotPassword = async (req, res) => {
       token,
     });
     await newPasswordResetToken.save();
-    const resetPasswordUrl = `http://localhost:8080/reset-password?token=${token}&id=${user._id}`;
+    const resetPasswordUrl = `http://localhost:3000/reset-password?token=${token}&id=${user._id}`;
     var transport = nodemailer.createTransport({
       host: "smtp.mailtrap.io",
       port: 2525,
@@ -210,7 +210,7 @@ exports.forgotPassword = async (req, res) => {
     });
   } catch (error) {
     return res.json(500, {
-      message: error.message,
+      error: error.message,
     });
   }
 };

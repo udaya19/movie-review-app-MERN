@@ -47,11 +47,20 @@ export const getIsAuth = async (token) => {
 
 export const forgetPassword = async (email) => {
   try {
-    const { data } = await client.post("/users/api/forgot-password", { email });
+    const { data } = await client.post("/users/forgot-password", { email });
     return data;
   } catch (error) {
     const { response } = error;
     if (response?.data) return response.data;
     return { error: error.message || error };
   }
+};
+
+export const verifyPasswordResetToken = async (token, userId) => {
+  try {
+    const { data } = await client.post("/users/verify-pass-reset-token", {
+      token,
+      userId,
+    });
+  } catch (error) {}
 };

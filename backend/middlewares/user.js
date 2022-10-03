@@ -25,7 +25,7 @@ exports.isValidPassResetToken = async (req, res, next) => {
     next();
   } catch (error) {
     return res.json(500, {
-      message: error.message,
+      error: error.message,
     });
   }
 };

@@ -18,7 +18,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/verification" element={<EmailVerification />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
-        <Route path="/confirm-password" element={<ConfirmPassword />} />
+        <Route path="/reset-password" element={<ConfirmPassword />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
