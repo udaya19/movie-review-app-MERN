@@ -5,7 +5,7 @@ import { getIsAuth, userSignIn } from "../api/auth";
 export const AuthContext = createContext();
 const defaultAuthInfo = {
   profile: null,
-  isLoggedIn: false,
+  isLoggedIn: localStorage.getItem("auth-token") ? true : false,
   isPending: false,
   error: "",
 };
@@ -48,6 +48,7 @@ const AuthProvider = ({ children }) => {
     setAuthInfo({
       ...defaultAuthInfo,
     });
+    window.location.reload(true);
   };
   useEffect(() => {
     isAuth();
