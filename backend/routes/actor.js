@@ -1,5 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const actorController = require("../controllers/actor");
-router.post("/create", actorController.createActor);
+const { uploadImage } = require("../middlewares/multer");
+router.post(
+  "/create",
+  uploadImage.single("avatar"),
+  actorController.createActor
+);
 module.exports = router;
