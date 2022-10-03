@@ -1,0 +1,32 @@
+const mongoose = require("mongoose");
+
+const actorSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    about: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    gender: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    avatar: {
+      type: Object,
+      url: String,
+      public_id: String,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Actor = mongoose.model("Actor", actorSchema);
+module.exports = Actor;
