@@ -54,7 +54,7 @@ const SignIn = () => {
             name="password"
             type="password"
           />
-          <Submit value="SignIn" busy={isPending} />
+          <Submit value="SignIn" />
           <div className="flex justify-between">
             <CustomLink
               to="/forget-password"

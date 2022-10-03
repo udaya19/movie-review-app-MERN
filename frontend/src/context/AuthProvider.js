@@ -42,9 +42,9 @@ const AuthProvider = ({ children }) => {
       error: "",
     });
   };
-  //   useEffect(() => {
-  //     isAuth();
-  //   }, []);
+  useEffect(() => {
+    isAuth();
+  }, []);
   const handleLogout = () => {
     localStorage.removeItem("auth-token");
     setAuthInfo({
