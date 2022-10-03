@@ -32,14 +32,14 @@ export const userSignIn = async (userInfo) => {
 
 export const getIsAuth = async (token) => {
   try {
-    const response = await client.get("/users/is-auth", {
+    const { data } = await client.get("/users/is-auth", {
       headers: {
         Authorization: "Bearer " + token,
         accept: "application/json",
       },
     });
-    console.log(response);
-    return response;
+    console.log(data);
+    return data;
   } catch (error) {
     console.log(error);
   }

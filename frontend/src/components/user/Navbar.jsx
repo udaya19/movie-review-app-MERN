@@ -29,11 +29,20 @@ const Navbar = () => {
                 placeholder="Search..."
               />
             </li>
-            {isLoggedIn ? (
+            {/* {isLoggedIn ? (
               <button onClick={handleLogout}>LogOut</button>
             ) : (
               <Link to="/signin">
                 <li className="text-white">Login</li>
+              </Link>
+            )} */}
+            {isLoggedIn ? (
+              <button onClick={handleLogout} className="text-white ">
+                Logout
+              </button>
+            ) : (
+              <Link className="text-white " to="/signin">
+                Login
               </Link>
             )}
           </ul>
