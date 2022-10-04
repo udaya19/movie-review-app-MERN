@@ -1,10 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const actorController = require("../controllers/actor");
+const { isAuth, isAdmin } = require("../middlewares/auth");
 const { uploadImage } = require("../middlewares/multer");
 const { actorInfoValidator, validate } = require("../middlewares/validator");
 router.post(
   "/create",
+  isAuth,
+  isAdmin,
   uploadImage.single("avatar"),
   actorInfoValidator,
   validate,
