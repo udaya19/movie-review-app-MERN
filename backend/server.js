@@ -22,6 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/users", require("./routes/user"));
 app.use("/api/actors", require("./routes/actor"));
+app.use("/api/movies", require("./routes/movie"));
 app.use("/*", handleNotFound);
 app.listen(8080, () => {
   console.log("the port is listening on port 8080");
