@@ -19,4 +19,6 @@ router.post(
   actorController.updateActor
 );
 
+router.delete("/delete/:id", actorController.deleteActor);
+
 module.exports = router;

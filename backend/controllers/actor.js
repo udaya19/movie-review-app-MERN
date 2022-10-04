@@ -35,45 +35,85 @@ exports.createActor = async (req, res) => {
 };
 
 exports.updateActor = async (req, res) => {
-  const { name, about, gender } = req.body;
-  const { file } = req;
-  const { id } = req.params;
-  if (!isValidObjectId(id)) {
-    return res.json(400, {
-      error: "Invalid object id",
-    });
-  }
-  const actor = await Actor.findById(id);
-  if (!actor) {
-    return res.json(400, {
-      error: "Invalid actor",
-    });
-  }
-  const public_id = actor.avatar?.public_id;
-  if (public_id && file) {
-    const { result } = await cloudinary.uploader.destroy(public_id);
-    if (result !== "ok") {
+  try {
+    const { name, about, gender } = req.body;
+    const { file } = req;
+    const { id } = req.params;
+    if (!isValidObjectId(id)) {
       return res.json(400, {
-        error: "Couldnot remove image from the cloud",
+        error: "Invalid object id",
       });
     }
+    const actor = await Actor.findById(id);
+    if (!actor) {
+      return res.json(400, {
+        error: "Invalid actor",
+      });
+    }
+    const public_id = actor.avatar?.public_id;
+    if (public_id && file) {
+      const { result } = await cloudinary.uploader.destroy(public_id);
+      if (result !== "ok") {
+        return res.json(400, {
+          error: "Couldnot remove image from the cloud",
+        });
+      }
+    }
+    if (file) {
+      const { secure_url, public_id } = await cloudinary.uploader.upload(
+        file.path,
+        { gravity: "face", height: 150, width: 150, crop: "thumb" }
+      );
+      actor.avatar = { url: secure_url, public_id };
+    }
+    actor.name = name;
+    actor.about = about;
+    actor.gender = gender;
+    await actor.save();
+    return res.status(200).json({
+      id: actor._id,
+      name,
+      about,
+      gender,
+      avatar: actor.avatar?.url,
+    });
+  } catch (error) {
+    return res.json(500, {
+      error: error.message,
+    });
   }
-  if (file) {
-    const { secure_url, public_id } = await cloudinary.uploader.upload(
-      file.path,
-      { gravity: "face", height: 150, width: 150, crop: "thumb" }
-    );
-    actor.avatar = { url: secure_url, public_id };
+};
+
+exports.deleteActor = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!isValidObjectId(id)) {
+      return res.json(400, {
+        error: "Invalid object id",
+      });
+    }
+    const actor = await Actor.findById(id);
+    if (!actor) {
+      return res.json(400, {
+        error: "Invalid actor",
+      });
+    }
+    const public_id = actor.avatar?.public_id;
+    if (public_id) {
+      const { result } = await cloudinary.uploader.destroy(public_id);
+      if (result !== "ok") {
+        return res.json(400, {
+          error: "Couldnot remove image from the cloud",
+        });
+      }
+    }
+    await Actor.findByIdAndDelete(id);
+    return res.json(200, {
+      message: "Record removed succesfully",
+    });
+  } catch (error) {
+    return res.json(500, {
+      error: error.message,
+    });
   }
-  actor.name = name;
-  actor.about = about;
-  actor.gender = gender;
-  await actor.save();
-  return res.status(200).json({
-    id: actor._id,
-    name,
-    about,
-    gender,
-    avatar: actor.avatar?.url,
-  });
 };
