@@ -10,4 +10,13 @@ router.post(
   validate,
   actorController.createActor
 );
+
+router.post(
+  "/update/:id",
+  uploadImage.single("avatar"),
+  actorInfoValidator,
+  validate,
+  actorController.updateActor
+);
+
 module.exports = router;
