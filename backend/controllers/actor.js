@@ -11,12 +11,22 @@ exports.createActor = async (req, res) => {
     const { name, about, gender } = req.body;
     const { file } = req;
     const newActor = new Actor({ name, about, gender });
-    const { secure_url, public_id } = await cloudinary.uploader.upload(
-      file.path
-    );
-    newActor.avatar = { url: secure_url, public_id };
+    if (file) {
+      const { secure_url, public_id } = await cloudinary.uploader.upload(
+        file.path
+      );
+      newActor.avatar = { url: secure_url, public_id };
+    }
     await newActor.save();
-    res.status(200).json(newActor);
+    res
+      .status(200)
+      .json({
+        id: newActor._id,
+        name,
+        about,
+        gender,
+        avatar: newActor.avatar?.url,
+      });
   } catch (error) {
     res.json(500, {
       error: error.message,
