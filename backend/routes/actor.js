@@ -16,14 +16,16 @@ router.post(
 
 router.post(
   "/update/:id",
+  isAuth,
+  isAdmin,
   uploadImage.single("avatar"),
   actorInfoValidator,
   validate,
   actorController.updateActor
 );
 
-router.delete("/delete/:id", actorController.deleteActor);
-router.get("/search", actorController.searchActor);
-router.get("/latest-records", actorController.getLatestActors);
+router.delete("/delete/:id", isAuth, isAdmin, actorController.deleteActor);
+router.get("/search", isAuth, isAdmin, actorController.searchActor);
+router.get("/latest-records", isAuth, isAdmin, actorController.getLatestActors);
 router.get("/single/:id", actorController.getSingleActor);
 module.exports = router;
