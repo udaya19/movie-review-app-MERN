@@ -117,3 +117,32 @@ exports.deleteActor = async (req, res) => {
     });
   }
 };
+
+exports.searchActor = async (req, res) => {
+  try {
+    const { query } = req;
+    const result = await Actor.find({ $text: { $search: `"${query.name}"` } });
+    return res.json(200, {
+      result,
+    });
+  } catch (error) {
+    return res.json(500, {
+      error: error.message,
+    });
+  }
+};
+
+exports.getLatestActors = async (req, res) => {
+  try {
+    const result = await Actor.find()
+      .sort({ createdAt: "descending" })
+      .limit(12);
+    return res.json(200, {
+      result,
+    });
+  } catch (error) {
+    return res.json(500, {
+      error: error.message,
+    });
+  }
+};
