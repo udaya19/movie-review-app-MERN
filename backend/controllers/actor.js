@@ -146,3 +146,27 @@ exports.getLatestActors = async (req, res) => {
     });
   }
 };
+
+exports.getSingleActor = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!isValidObjectId(id)) {
+      return res.json(400, {
+        error: "Invalid object id",
+      });
+    }
+    const actor = await Actor.findById(id);
+    if (!actor) {
+      return res.json(400, {
+        error: "Actor not found",
+      });
+    }
+    return res.json(200, {
+      actor,
+    });
+  } catch (error) {
+    return res.json(500, {
+      error: error.message,
+    });
+  }
+};

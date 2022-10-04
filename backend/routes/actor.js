@@ -22,4 +22,5 @@ router.post(
 router.delete("/delete/:id", actorController.deleteActor);
 router.get("/search", actorController.searchActor);
 router.get("/latest-records", actorController.getLatestActors);
+router.get("/single/:id", actorController.getSingleActor);
 module.exports = router;
