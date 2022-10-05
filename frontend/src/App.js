@@ -8,7 +8,12 @@ import ForgetPassword from "./components/auth/ForgetPassword";
 import ConfirmPassword from "./components/auth/ConfirmPassword";
 import NotFound from "./components/NotFound";
 import Home from "./components/Home";
+import { useAuth } from "./hooks";
 function App() {
+  const { authInfo } = useAuth();
+  console.log(authInfo);
+  const isAdmin = authInfo.profile?.role === "admin";
+  console.log(isAdmin);
   return (
     <div className="App">
       <Navbar />
