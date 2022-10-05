@@ -32,7 +32,7 @@ router.post("/logout", userController.logout);
 router.get("/is-auth", isAuth, (req, res) => {
   const { user } = req;
   return res.json(200, {
-    user: { id: user._id, name: user.name, email: user.email },
+    user: { id: user._id, name: user.name, email: user.email, role: user.role },
   });
 });
 module.exports = router;
