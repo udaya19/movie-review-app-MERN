@@ -15,12 +15,34 @@ router.post(
 );
 router.post(
   "/create",
-  //   isAuth,
-  //   isAdmin,
+  isAuth,
+  isAdmin,
   uploadImage.single("poster"),
   parseData,
   validateMovie,
   validate,
   movieController.createMovie
 );
+
+router.patch(
+  "/update-movie-without-poster/:id",
+  isAuth,
+  isAdmin,
+  //   parseData,
+  validateMovie,
+  validate,
+  movieController.updateMovieWithOutPoster
+);
+
+router.patch(
+  "/update-movie-with-poster/:id",
+  isAuth,
+  isAdmin,
+  uploadImage.single("poster"),
+  parseData,
+  validateMovie,
+  validate,
+  movieController.updateMovieWithPoster
+);
+
 module.exports = router;
