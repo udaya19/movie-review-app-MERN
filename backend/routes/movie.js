@@ -45,4 +45,5 @@ router.patch(
   movieController.updateMovieWithPoster
 );
 
+router.delete("/:movieId", isAuth, isAdmin, movieController.removeMovie);
 module.exports = router;
