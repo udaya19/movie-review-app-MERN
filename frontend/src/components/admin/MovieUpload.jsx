@@ -4,7 +4,8 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { uploadTrailer } from "../../api/movie";
 
 const MovieUpload = () => {
-  const [videoSelected, setVideoSelected] = useState(true);
+  const [videoSelected, setVideoSelected] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const handleTypeError = (error) => {
     console.log(error);
   };
@@ -12,12 +13,17 @@ const MovieUpload = () => {
     console.log(file);
     const formData = new FormData();
     formData.append("video", file);
-    const res = await uploadTrailer(formData);
+    const res = await uploadTrailer(formData, setUploadProgress);
     console.log(res);
   };
   return (
     <div className="dark:text-white dark:bg-white dark:bg-opacity-50 test-primary fixed inset-0 bg-opacity-50 backdrop-blur-sm flex items-center justify-center">
       <div className="dark:bg-primary bg-white rounded w-[45rem] h-[40rem] overflow-auto">
+        <UploadProgress
+          visible
+          message={`Upload progress ${uploadProgress}%`}
+          width={uploadProgress}
+        />
         <TrailerSelector
           visible={!videoSelected}
           onTypeError={handleTypeError}
@@ -43,6 +49,25 @@ const TrailerSelector = ({ visible, handleChange, onTypeError }) => {
           <p>Drag and drop your files here</p>
         </div>
       </FileUploader>
+    </div>
+  );
+};
+
+const UploadProgress = ({ message, width, visible }) => {
+  if (!visible) return null;
+  return (
+    <div className="p-2">
+      <div className=" dark:bg-secondary bg-white drop-shadow-lg rounded p-3">
+        <div className="relative h-3 dark:bg-dark-subtle bg-light-subtle overflow-hidden">
+          <div
+            style={{ width: width + "%" }}
+            className="h-full absolute dark:bg-white bg-secondary "
+          ></div>
+        </div>
+        <p className="font-semibold dark:text-dark-subtle text-light-subtle animate-pulse mt-1">
+          {message}
+        </p>
+      </div>
     </div>
   );
 };
