@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { uploadTrailer } from "../../api/movie";
+import MovieForm from "./MovieForm";
 
 const MovieUpload = () => {
   const [videoSelected, setVideoSelected] = useState(false);
@@ -38,7 +39,7 @@ const MovieUpload = () => {
   return (
     <div className="dark:text-white dark:bg-white dark:bg-opacity-50 test-primary fixed inset-0 bg-opacity-50 backdrop-blur-sm flex items-center justify-center">
       <div className="dark:bg-primary bg-white rounded w-[45rem] h-[40rem] overflow-auto">
-        <UploadProgress
+        {/* <UploadProgress
           visible={!videoUploaded && videoSelected}
           message={getUploadProgressValue()}
           width={uploadProgress}
@@ -47,7 +48,8 @@ const MovieUpload = () => {
           visible={!videoSelected}
           onTypeError={handleTypeError}
           handleChange={handleChange}
-        />
+        /> */}
+        <MovieForm />
       </div>
     </div>
   );
