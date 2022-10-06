@@ -6,19 +6,26 @@ import { uploadTrailer } from "../../api/movie";
 const MovieUpload = () => {
   const [videoSelected, setVideoSelected] = useState(false);
   const [videoUploaded, setVideoUploaded] = useState(false);
+  const [videoInfo, setVideoInfo] = useState({});
   const [uploadProgress, setUploadProgress] = useState(0);
   const handleTypeError = (error) => {
     console.log(error);
   };
-  const handleChange = async (file) => {
+  const handleChange = (file) => {
     console.log(file);
     const formData = new FormData();
     formData.append("video", file);
     setVideoSelected(true);
-    const res = await uploadTrailer(formData, setUploadProgress);
-    console.log(res);
-    if (!res.error) {
+    handleUploadTrailer(formData);
+  };
+  const handleUploadTrailer = async (data) => {
+    const { error, url, public_id } = await uploadTrailer(
+      data,
+      setUploadProgress
+    );
+    if (!error) {
       setVideoUploaded(true);
+      setVideoInfo({ url, public_id });
     }
   };
   const getUploadProgressValue = () => {
@@ -27,6 +34,7 @@ const MovieUpload = () => {
     }
     return `Upload progress ${uploadProgress}`;
   };
+  console.log(videoInfo);
   return (
     <div className="dark:text-white dark:bg-white dark:bg-opacity-50 test-primary fixed inset-0 bg-opacity-50 backdrop-blur-sm flex items-center justify-center">
       <div className="dark:bg-primary bg-white rounded w-[45rem] h-[40rem] overflow-auto">
