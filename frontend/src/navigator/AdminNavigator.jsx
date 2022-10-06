@@ -9,7 +9,7 @@ import Header from "../components/admin/Header";
 
 const AdminNavigator = () => {
   return (
-    <div className="flex">
+    <div className="flex dark:bg-primary bg-white">
       <AdminNavBar />
       <div className="flex-1 p-2 max-w-screen-xl">
         <Header />
