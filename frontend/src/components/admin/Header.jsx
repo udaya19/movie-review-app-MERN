@@ -3,9 +3,13 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { BsFillSunFill } from "react-icons/bs";
 import { useTheme } from "../../hooks/index";
 
-const Header = () => {
+const Header = ({ onAddMovieClick, onAddActorClick }) => {
   const [showOptions, setShowOptions] = useState(false);
   const { toggleTheme } = useTheme();
+  const options = [
+    { title: "Add Movie", onClick: onAddMovieClick },
+    { title: "Add Actor", onClick: onAddActorClick },
+  ];
   return (
     <div className="flex items-center justify-between relative">
       <input
@@ -29,18 +33,19 @@ const Header = () => {
           <span>Create</span>
           <AiOutlinePlus />
         </button>
-        <CreateOptions visible={showOptions} />
+        <CreateOptions options={options} visible={showOptions} />
       </div>
     </div>
   );
 };
 
-const CreateOptions = ({ visible }) => {
+const CreateOptions = ({ options, visible }) => {
   if (!visible) return null;
   return (
     <div className="absolute right-0 top-12 flex flex-col space-y-3 p-5 rounded dark:bg-secondary bg-white drop-shadow-lg">
-      <Options>Add Actor</Options>
-      <Options>Add Movie</Options>
+      {options.map(({ title, onClick }) => {
+        return <Options onClick={onClick}>{title}</Options>;
+      })}
     </div>
   );
 };
