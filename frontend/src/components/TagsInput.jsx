@@ -55,7 +55,7 @@ const Tag = ({ children, onClick }) => {
   return (
     <span className="dark:bg-white flex items-center text-sm px-1 bg-primary dark:text-primary text-white">
       {children}
-      <button onClick={onClick}>
+      <button type="button" onClick={onClick}>
         <AiOutlineClose size={12} />
       </button>
     </span>
