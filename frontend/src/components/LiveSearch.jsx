@@ -60,7 +60,11 @@ const LiveSearch = () => {
     if (key === "ArrowUp") {
       nextCount = (focussedIndex + results.length - 1) % results.length;
     }
+    if (key === "Enter") return handleSelection(results[focussedIndex]);
     setFocussedIndex(nextCount);
+  };
+  const handleSelection = (selectedItem) => {
+    console.log(selectedItem);
   };
   return (
     <div className="relative">
@@ -73,6 +77,7 @@ const LiveSearch = () => {
         onKeyDown={handleKeyDown}
       />
       <SearchResults
+        onSelect={handleSelection}
         focussedIndex={focussedIndex}
         results={results}
         visible={displaySearch}
@@ -81,7 +86,7 @@ const LiveSearch = () => {
   );
 };
 
-const SearchResults = ({ visible, results = [], focussedIndex }) => {
+const SearchResults = ({ visible, results = [], focussedIndex, onSelect }) => {
   const resultContainer = useRef();
   useEffect(() => {
     resultContainer.current?.scrollIntoView({
@@ -92,9 +97,11 @@ const SearchResults = ({ visible, results = [], focussedIndex }) => {
   if (!visible) return null;
   return (
     <div className="absolute right-0 left-0 top-10 bg-white dark:bg-secondary shadow-md p-2 max-h-64 space-y-2 mt-1 overflow-auto">
-      {results.map(({ id, name, avatar }, index) => {
+      {results.map((result, index) => {
+        const { id, name, avatar } = result;
         return (
           <div
+            onClick={() => onSelect(result)}
             ref={index === focussedIndex ? resultContainer : null}
             key={id}
             className={
