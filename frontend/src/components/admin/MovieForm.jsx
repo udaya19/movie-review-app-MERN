@@ -97,7 +97,7 @@ export default function MovieForm() {
     setMovieInfo({ ...movieInfo, writers: [...writers, profile] });
   };
 
-  const { title, storyLine, director } = movieInfo;
+  const { title, storyLine, director, writers } = movieInfo;
 
   return (
     <form onSubmit={handleSubmit} className="flex space-x-3">
@@ -144,7 +144,14 @@ export default function MovieForm() {
           />
         </div>
         <div className="">
-          <Label htmlFor="writers">Writers</Label>
+          <div className="flex justify-between">
+            <LabelWithBadge badge={writers.length} htmlFor="writers">
+              Writers
+            </LabelWithBadge>
+            <button className="dark:text-white text-primary hover:underline transition">
+              View All
+            </button>
+          </div>
           <LiveSearch
             name="writers"
             results={results}
@@ -169,5 +176,19 @@ const Label = ({ children, htmlFor }) => {
     >
       {children}
     </label>
+  );
+};
+
+const LabelWithBadge = ({ children, htmlFor, badge }) => {
+  const renderBadge = () => {
+    <span className="translate-x-5 -translate-y-2 text-xs dark:bg-dark-subtle bg-light-subtle absolute top-0 right-0 w-5 h-5 rounded-full flex justify-center items-center">
+      {badge <= 9 ? badge : "9+"}
+    </span>;
+  };
+  return (
+    <div className="relative">
+      <Label htmlFor={htmlFor}>{children}</Label>
+      {renderBadge()}
+    </div>
   );
 };
