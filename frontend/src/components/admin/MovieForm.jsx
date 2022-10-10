@@ -87,6 +87,15 @@ export default function MovieForm() {
   const updateDirector = (profile) => {
     setMovieInfo({ ...movieInfo, director: profile });
   };
+  const updateWriters = (profile) => {
+    const { writers } = movieInfo;
+    for (let writer of writers) {
+      if (writer.id === profile.id) {
+        return console.log("This profile is already selected");
+      }
+    }
+    setMovieInfo({ ...movieInfo, writers: [...writers, profile] });
+  };
 
   const { title, storyLine, director } = movieInfo;
 
@@ -132,6 +141,16 @@ export default function MovieForm() {
             renderItem={renderItem}
             onSelect={updateDirector}
             value={director.name}
+          />
+        </div>
+        <div className="">
+          <Label htmlFor="writers">Writers</Label>
+          <LiveSearch
+            name="writers"
+            results={results}
+            placeholder="Search profile"
+            renderItem={renderItem}
+            onSelect={updateWriters}
           />
         </div>
 
